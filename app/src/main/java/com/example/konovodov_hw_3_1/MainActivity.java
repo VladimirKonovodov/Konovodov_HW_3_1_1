@@ -2,7 +2,6 @@ package com.example.konovodov_hw_3_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,21 +12,18 @@ import java.math.BigDecimal;
 
 public class MainActivity extends AppCompatActivity {
 
-    boolean firstMemberIsNotEmpty;
-    boolean secondMemberIsNotEmpty;
-
 
     public StringBuffer firstMember = new StringBuffer();
     public StringBuffer secondMember = new StringBuffer();
     public StringBuffer action = new StringBuffer();
 
-    public StringBuffer resultStr = new StringBuffer();
+    //public StringBuffer resultStr = new StringBuffer();
     public BigDecimal firstMemberBD;
     public BigDecimal secondMemberBD;
     public BigDecimal resultBD;
 
-    //private static final int TEXT_ALIGNMENT_VIEW_END = 6;
-    TextView text1; //= (TextView)findViewById(R.id.textView);
+
+    TextView text1;
     private Button clearBtn;
     private Button percentBtn;
     private Button delBtn;
@@ -44,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Button twoBtn;
     private Button threeBtn;
     private Button plusBtn;
-    private Button doubzeroBtn;
+    private Button doubZeroBtn;
     private Button zeroBtn;
     private Button dotBtn;
     private Button resultBtn;
@@ -53,33 +49,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        initID();
 
-        text1 = (TextView) findViewById(R.id.textView);
+
         text1.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
         text1.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
 
-        clearBtn = findViewById(R.id.button1);
-        percentBtn = findViewById(R.id.button2);
-        delBtn = findViewById(R.id.button3);
-        divBtn = findViewById(R.id.button4);
-        sevenBtn = findViewById(R.id.button5);
-        eightBtn = findViewById(R.id.button6);
-        nineBtn = findViewById(R.id.button7);
-        multBtn = findViewById(R.id.button8);
-        fourBtn = findViewById(R.id.button9);
-        fiveBtn = findViewById(R.id.button10);
-        sixBtn = findViewById(R.id.button11);
-        minusBtn = findViewById(R.id.button12);
-        oneBtn = findViewById(R.id.button13);
-        twoBtn = findViewById(R.id.button14);
-        threeBtn = findViewById(R.id.button15);
-        plusBtn = findViewById(R.id.button16);
-        doubzeroBtn = findViewById(R.id.button17);
-        zeroBtn = findViewById(R.id.button18);
-        dotBtn = findViewById(R.id.button19);
-        resultBtn = findViewById(R.id.button20);
 
+        btnListeners();
+
+    }
+
+    public void btnListeners() {
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,18 +183,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        doubzeroBtn.setOnClickListener(new View.OnClickListener() {
+        doubZeroBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (action.length() == 0) {
-                    if(firstMember.length()!=0) {
+                    if (firstMember.length() != 0) {
                         firstMemberBD = new BigDecimal(firstMember.toString());
                         firstMemberBD = firstMemberBD.multiply(new BigDecimal("-1"));
                         firstMember = new StringBuffer(firstMemberBD.toString());
                     }
-                }
-                else {
-                    if(secondMember.length()!=0) {
+                } else {
+                    if (secondMember.length() != 0) {
                         secondMemberBD = new BigDecimal(secondMember.toString());
                         secondMemberBD = secondMemberBD.multiply(new BigDecimal("-1"));
                         secondMember = new StringBuffer(secondMemberBD.toString());
@@ -274,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void clearData() {
@@ -299,27 +281,25 @@ public class MainActivity extends AppCompatActivity {
             if (member.charAt(0) == '0') {
                 if ("0".equals(last)) {
 
-                }
-                else {
+                } else {
                     if (".".equals(last)) {
                         member.append(last);
-                    }
-                    else {
+                    } else {
                         member.replace(0, 1, last);
                     }
                 }
 
 
+            } else {
+                member.append(last);
             }
-            else {member.append(last);}
-        }
-        else {
+        } else {
             member.append(last);
         }
     }
 
     public void setAction(char last) {
-        if (firstMember.length()!=0) {
+        if (firstMember.length() != 0) {
             if (action.length() == 0) {
                 action.insert(0, last);
             } else {
@@ -329,16 +309,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void outData() {
-        if (secondMember.length()!=0) {
+        if (secondMember.length() != 0) {
             secondMemberBD = new BigDecimal(secondMember.toString());
 
-            if (secondMemberBD.compareTo(new BigDecimal(0))<0/*"-".equals(secondMember.charAt(0))*/) {
+            if (secondMemberBD.compareTo(new BigDecimal(0)) < 0/*"-".equals(secondMember.charAt(0))*/) {
                 text1.setText(firstMember.toString() + action.toString() + '(' + secondMember.toString() + ')');
             } else {
                 text1.setText(firstMember.toString() + action.toString() + secondMember.toString());
             }
-        }
-        else {
+        } else {
             text1.setText(firstMember.toString() + action.toString() + secondMember.toString());
         }
     }
@@ -361,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getResult() {
-        //if (secondMember.length()!=0) {
+
         firstMemberBD = new BigDecimal(firstMember.toString());
         secondMemberBD = new BigDecimal(secondMember.toString());
         switch (action.toString().charAt(0)) {
@@ -393,24 +372,47 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-        //}
+
 
 
     }
 
     public void outResult() {
         //text1.setText(firstMember.toString() + action.toString() + secondMember.toString() + "\n" + resultBD.toString());
-        if (secondMember.length()!=0) {
+        if (secondMember.length() != 0) {
             secondMemberBD = new BigDecimal(secondMember.toString());
 
-            if (secondMemberBD.compareTo(new BigDecimal(0))<0/*"-".equals(secondMember.charAt(0))*/) {
-                text1.setText(firstMember.toString() + action.toString() + '(' + secondMember.toString() + ')'+ "\n" + resultBD.toString());
+            if (secondMemberBD.compareTo(new BigDecimal(0)) < 0/*"-".equals(secondMember.charAt(0))*/) {
+                text1.setText(firstMember.toString() + action.toString() + '(' + secondMember.toString() + ')' + "\n" + resultBD.toString());
             } else {
-                text1.setText(firstMember.toString() + action.toString() + secondMember.toString()+ "\n" + resultBD.toString());
+                text1.setText(firstMember.toString() + action.toString() + secondMember.toString() + "\n" + resultBD.toString());
             }
+        } else {
+            text1.setText(firstMember.toString() + action.toString() + secondMember.toString() + "\n" + resultBD.toString());
         }
-        else {
-            text1.setText(firstMember.toString() + action.toString() + secondMember.toString()+ "\n" + resultBD.toString());
-        }
+    }
+
+    private void initID() {
+        text1 = (TextView) findViewById(R.id.textView);
+        clearBtn = findViewById(R.id.button1);
+        percentBtn = findViewById(R.id.button2);
+        delBtn = findViewById(R.id.button3);
+        divBtn = findViewById(R.id.button4);
+        sevenBtn = findViewById(R.id.button5);
+        eightBtn = findViewById(R.id.button6);
+        nineBtn = findViewById(R.id.button7);
+        multBtn = findViewById(R.id.button8);
+        fourBtn = findViewById(R.id.button9);
+        fiveBtn = findViewById(R.id.button10);
+        sixBtn = findViewById(R.id.button11);
+        minusBtn = findViewById(R.id.button12);
+        oneBtn = findViewById(R.id.button13);
+        twoBtn = findViewById(R.id.button14);
+        threeBtn = findViewById(R.id.button15);
+        plusBtn = findViewById(R.id.button16);
+        doubZeroBtn = findViewById(R.id.button17);
+        zeroBtn = findViewById(R.id.button18);
+        dotBtn = findViewById(R.id.button19);
+        resultBtn = findViewById(R.id.button20);
     }
 }
